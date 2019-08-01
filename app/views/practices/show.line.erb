@@ -1,0 +1,33 @@
+<%= raw(Kamiflex.build(self) do
+  bubble do
+    body do
+      horizontal_box do
+        text "🍔", flex: 0, action: message_action("/")
+        text "訓練項目", weight: "bold", margin: "sm"
+        text "修改", align: "end", action: uri_action(liff_path(path: edit_practice_path(@practice) )), color: "#0000ee"
+      end
+      separator
+
+      horizontal_box margin: "md" do
+        vertical_box do
+          #text "id", weight: "bold", margin: "xs"
+          text "類型", weight: "bold", margin: "xs"
+          text "動作", weight: "bold", margin: "xs"
+          text "次數", weight: "bold", margin: "xs"
+          text "組數", weight: "bold", margin: "xs"
+          text "組間(分)", weight: "bold", margin: "xs"
+          text "建立時間", weight: "bold", margin: "xs"
+        end
+        vertical_box do
+          #text @practice.id.blank? ? "-" : @practice.id.to_s, align: "end", margin: "xs"
+          text @practice.bar_type.blank? ? "-" : @practice.bar_type.to_s, align: "end", margin: "xs"
+          text @practice.moving.blank? ? "-" : @practice.moving.to_s, align: "end", margin: "xs"
+          text @practice.amount.blank? ? "-" : @practice.amount.to_s, align: "end", margin: "xs"
+          text @practice.unit.blank? ? "-" : @practice.unit.to_s, align: "end", margin: "xs"
+          text @practice.rest.blank? ? "-" : @practice.rest.to_s, align: "end", margin: "xs"
+          text @practice.created_at.blank? ? "-" : @practice.created_at.strftime('%Y-%m-%d'), align: "end", margin: "xs"
+        end
+      end
+    end
+  end
+end )%>

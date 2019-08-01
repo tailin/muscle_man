@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Bar type:</strong>
+  <%= @practice.bar_type %>
+</p>
+
+<p>
+  <strong>Moving:</strong>
+  <%= @practice.moving %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @practice.amount %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @practice.unit %>
+</p>
+
+<p>
+  <strong>Rest:</strong>
+  <%= @practice.rest %>
+</p>
+
+<%= link_to 'Edit', edit_practice_path(@practice) %> |
+<%= link_to 'Back', practices_path %>

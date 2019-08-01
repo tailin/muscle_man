@@ -1,0 +1,26 @@
+<%= raw(Kamiflex.build(self) do
+  bubble do
+    body do
+      horizontal_box do
+        text "🍔", flex: 0, action: message_action("/")
+        text "你的訓練", weight: "bold", margin: "sm"
+        text "新增", align: "end", action: uri_action(liff_path(path: new_practice_path)), color: "#0000ee"
+      end
+      separator
+      if @practices.present?
+        vertical_box margin: "lg" do
+          horizontal_box margin: "lg" do
+            text "項目", weight: "bold"
+           # text "action", align: "end"
+          end
+          horizontal_box @practices, margin: "lg" do |practice|
+            text "#{practice.bar_type}#{practice.moving}", action: message_action("GET /practices/#{practice.id}")
+            text "❌", align: "end", action: message_action("DELETE /practices/#{practice.id}")
+          end
+        end
+      else
+        text "沒有目前內容", margin: "lg"
+      end
+    end
+  end
+end )%>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bar_type: MyString
+  moving: MyString
+  amount: 1
+  unit: 1
+  rest: 1.5
+
+two:
+  bar_type: MyString
+  moving: MyString
+  amount: 1
+  unit: 1
+  rest: 1.5
