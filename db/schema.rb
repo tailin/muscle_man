@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_151045) do
+ActiveRecord::Schema.define(version: 2019_08_03_142759) do
 
   create_table "practices", force: :cascade do |t|
     t.string "bar_type"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_151045) do
     t.float "rest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "weight"
   end
 
 end
