@@ -31,7 +31,8 @@ class PracticesController < ApplicationController
   end
 
   def index
-    @practices = Practice.all
+    # @practices = Practice.all.order("created_at DESC")
+    @practices = Practice.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
   end
 
   def show
