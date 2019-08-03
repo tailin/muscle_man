@@ -4,7 +4,7 @@
       horizontal_box do
         text "🍔", flex: 0, action: message_action("/")
         text "你的訓練", weight: "bold", margin: "sm"
-        text "新增", align: "end", action: uri_action(liff_path(path: new_practice_path)), color: "#0000ee"
+        text "新增", align: "end", action: uri_action(liff_path(path: new_practice_path, liff_size: 'full')), color: "#0000ee"
       end
       separator
       if @practices.present?

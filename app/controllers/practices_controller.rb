@@ -1,29 +1,49 @@
 class PracticesController < ApplicationController
-  before_action :debug_info
+  # before_action :debug_info
   before_action :set_practice, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, only: [:webhook]
+  protect_from_forgery with: :null_session
 
-  # GET /practices
-  # GET /practices.json
+  def webhook
+      line ||= Line::Bot::Client.new { |config|
+        config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+      }
+      reply_token = params["event"]["replyToken"]
+      text = params["event"]["message"]["text"]
+
+      case text
+      when "recent_three_month"
+        msg = "3"
+      when "recent_six_month"
+        msg = "6"
+      when "recent_one_year"
+        msg = "12"
+      else
+        msg = "error"
+      end
+      message = {
+        type: 'text',
+        text: msg
+      }
+      response = line.reply_message(reply_token, message)
+      head :ok
+  end
+
   def index
     @practices = Practice.all
   end
 
-  # GET /practices/1
-  # GET /practices/1.json
   def show
   end
 
-  # GET /practices/new
   def new
     @practice = Practice.new
   end
-
-  # GET /practices/1/edit
+  
   def edit
   end
 
-  # POST /practices
-  # POST /practices.json
   def create
     @practice = Practice.new(practice_params)
 
@@ -41,8 +61,6 @@ class PracticesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /practices/1
-  # PATCH/PUT /practices/1.json
   def update
     respond_to do |format|
       if @practice.update(practice_params)
@@ -58,8 +76,6 @@ class PracticesController < ApplicationController
     end
   end
 
-  # DELETE /practices/1
-  # DELETE /practices/1.json
   def destroy
     @practice.destroy
     @practices = Practice.all
@@ -71,14 +87,12 @@ class PracticesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_practice
       @practice = Practice.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def practice_params
-      params.require(:practice).permit(:bar_type, :moving, :amount, :unit, :rest)
+      params.require(:practice).permit(:bar_type, :moving, :amount, :unit, :rest, :weight)
     end
 
     def debug_info

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>MuscleMan</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<head>
+  <title>MuscleMan</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <body>
-    <%= yield %>
-  </body>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vconsole@2.5.0/dist/vconsole.min.js"  %>
+  <%= javascript_include_tag "https://raw.githubusercontent.com/polydice/vConsole-LIFF/master/dist/vconsole-liff.min.js"  %>
+</head>
+
+<body>
+  <%= yield %>
+</body>
+
 </html>

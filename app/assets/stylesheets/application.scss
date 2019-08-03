@@ -14,3 +14,28 @@
  *= require_self
  */
 @import "bootstrap";
+
+.body-field {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh;
+
+  .actions {
+    height: 7%;
+  }
+
+  .field {
+    height: 7%;
+
+    .select-field {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .actions-btn {
+    width: 100%;
+    height: 100%;
+  }
+}

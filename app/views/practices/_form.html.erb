@@ -1,43 +1,31 @@
 <%= form_with(model: practice, local: true) do |form| %>
-<div class="field">
-  類型<%= select :practice, :bar_type, Practice::BAR_LIST %>
-</div>
+<div class="body-field">
+  <div class="field">
+    類型<%= select :practice, :bar_type, Practice::BAR_LIST, {}, { class: 'select-field' } %>
+  </div>
 
-<div class="field">
-  <select id="body-select">
-    <% Practice::BODY_TYPE.each do |p| %>
-    <option value="<%= p %>"><%= p %></option>
-    <% end %>
-  </select>
+  <div class="field">
+    動作<%= select :practice, :moving, Practice::MOVING_TOTAL_LIST, {}, { class: 'select-field' } %>
+  </div>
 
-  動作<%= select :practice, :moving, Practice::MOVING_LIST %>
-</div>
+  <div class="field">
+    次數<%= select :practice, :amount, (1..25).to_a, {}, { class: 'select-field' } %>
+  </div>
 
-<div class="field">
-  次數<%= select :practice, :amount, (1..25).to_a %>
-</div>
+  <div class="field">
+    組數<%= select :practice, :unit, (1..10).to_a, {}, { class: 'select-field' } %>
+  </div>
 
-<div class="field">
-  組數<%= select :practice, :unit, (1..10).to_a %>
-</div>
+  <div class="field">
+    組間(分)<%= select :practice, :rest, (1.0..10.0).step(0.5).to_a, {}, { class: 'select-field' } %>
+  </div>
 
-<div class="field">
-  組間<%= select :practice, :rest, (1.0..10.0).step(0.5).to_a %>
-</div>
+  <div class="field">
+    重量(公斤)<%= form.number_field :weight, class: "select-field"%>
+  </div>
 
-<div class="actions">
-  <%= form.submit %>
+  <div class="actions">
+    <%= form.submit '送出', class: "btn btn-primary actions-btn" %>
+  </div>
 </div>
 <% end %>
-
-<script>
-  $("#body-select").change(function () {
-    var t = $(this).val();
-    alert(t)
-  })
-  $(document).on("ready", function () {
-    $("#body-select").change(function () {
-      alert("Handler for .change() called.");
-    });
-  })
-</script>

@@ -8,6 +8,7 @@
       <th>Bar type</th>
       <th>Moving</th>
       <th>Amount</th>
+      <th>weight</th>
       <th>Unit</th>
       <th>Rest</th>
       <th colspan="3"></th>
@@ -16,16 +17,17 @@
 
   <tbody>
     <% @practices.each do |practice| %>
-      <tr>
-        <td><%= practice.bar_type %></td>
-        <td><%= practice.moving %></td>
-        <td><%= practice.amount %></td>
-        <td><%= practice.unit %></td>
-        <td><%= practice.rest %></td>
-        <td><%= link_to 'Show', practice %></td>
-        <td><%= link_to 'Edit', edit_practice_path(practice) %></td>
-        <td><%= link_to 'Destroy', practice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <tr>
+      <td><%= practice.bar_type %></td>
+      <td><%= practice.moving %></td>
+      <td><%= practice.amount %></td>
+      <td><%= practice.weight %></td>
+      <td><%= practice.unit %></td>
+      <td><%= practice.rest %></td>
+      <td><%= link_to 'Show', practice %></td>
+      <td><%= link_to 'Edit', edit_practice_path(practice) %></td>
+      <td><%= link_to 'Destroy', practice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
