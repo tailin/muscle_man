@@ -1,0 +1,24 @@
+<% content_for :title, "查詢項目" %>
+
+<%= form_for "moving", url: search_practices_path, method: :post do |form| %>
+
+<% end %>
+
+<%= form_tag search_practices_path, method: :post do %>
+<div class="body-field">
+
+  <div class="field">
+    <%= select_tag "month", options_for_select((1..24).to_a) %>
+  </div>
+
+  <div class="field">
+    <%= select_tag "traning", options_for_select(@search) %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag "Submit" %>
+  </div>
+</div>
+
+  
+<% end %>

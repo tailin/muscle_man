@@ -3,20 +3,20 @@
     body do
       horizontal_box do
         text " 🍔 ", flex: 0, action: message_action("/")
-        text "今日訓練", weight: "bold", margin: "sm"
-        text "search", align: "end", action: uri_action(liff_path(path: search_practices_path)), color: "#0000ee"
-        text "新增", align: "end", action: uri_action(liff_path(path: new_practice_path, liff_size: 'full')), color: "#0000ee"
+        text "最近a訓練", weight: "bold", margin: "sm"
       end
       separator
       if @practices.present?
         vertical_box margin: "lg" do
           horizontal_box margin: "lg" do
             text "項目", weight: "bold"
-           # text "action", align: "end"
+            text "重量", weight: "bold"
+            text "日期", weight: "bold"
           end
           horizontal_box @practices, margin: "lg" do |practice|
             text "#{practice.bar_type}#{practice.moving}", action: message_action("GET /practices/#{practice.id}")
-            text "❌", align: "end", action: message_action("DELETE /practices/#{practice.id}")
+            text practice.weight.blank? ? "-" : practice.weight.to_s, margin: "xs"      
+            text practice.created_at.blank? ? "-" : practice.created_at.strftime('%y-%m-%d'), align: "end", margin: "xs"      
           end
         end
       else

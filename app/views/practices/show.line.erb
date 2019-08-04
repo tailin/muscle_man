@@ -4,13 +4,12 @@
       horizontal_box do
         text "🍔", flex: 0, action: message_action("/")
         text "訓練項目", weight: "bold", margin: "sm"
-        text "修改", align: "end", action: uri_action(liff_path(path: edit_practice_path(@practice) )), color: "#0000ee"
+        text "修改", align: "end", action: uri_action(liff_path(path: edit_practice_path(@practice), liff_size: 'full' )), color: "#0000ee"
       end
       separator
 
       horizontal_box margin: "md" do
         vertical_box do
-          #text "id", weight: "bold", margin: "xs"
           text "類型", weight: "bold", margin: "xs"
           text "動作", weight: "bold", margin: "xs"
           text "重量(公斤)", weight: "bold", margin: "xs"

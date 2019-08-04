@@ -1,56 +1,51 @@
 class PracticesController < ApplicationController
-  # before_action :debug_info
+  before_action :debug_info
   before_action :set_practice, only: [:show, :edit, :update, :destroy]
-  skip_before_action :verify_authenticity_token, only: [:webhook]
-  protect_from_forgery with: :null_session
-
-  def webhook
-      line ||= Line::Bot::Client.new { |config|
-        config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
-        config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
-      }
-      reply_token = params["event"]["replyToken"]
-      text = params["event"]["message"]["text"]
-
-      case text
-      when "recent_three_month"
-        msg = "3"
-      when "recent_six_month"
-        msg = "6"
-      when "recent_one_year"
-        msg = "12"
-      else
-        msg = "error"
-      end
-      message = {
-        type: 'text',
-        text: msg
-      }
-      response = line.reply_message(reply_token, message)
-      head :ok
-  end
-
+  before_action :today_practice, only:[:index, :create, :update, :destroy]
   def index
-    # @practices = Practice.all.order("created_at DESC")
-    @practices = Practice.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+    # @test = Practice.select(:bar_type, :moving).distinct
   end
 
-  def show
+  def search
+    if request.get?
+      p "--------------"
+      p params
+      p "--------------"
+      @search = []
+      Practice.select(:bar_type, :moving).distinct.each_with_index do |select, idx| 
+        @search.push ["#{select.bar_type}#{select.moving}", idx]
+      end
+      p @search
+    else
+      m = params[:month].to_i
+      t = params[:traning].to_i
+      p "============================"
+      p params
+      p "============================"
+      list = Practice.select(:bar_type, :moving).distinct[t]
+      @practices = Practice.where("bar_type = ? AND moving = ? AND created_at >= ?", list.bar_type, list.moving, Time.now - m.months)
+      p @practices
+      respond_to do |format|
+          format.html { redirect_to @practices, notice: 'Practice was successfully created.' }
+          format.json { render :show, status: :created, location: @practices }
+          format.line { render :search }
+      end
+    end
   end
+
+  def show;  end
 
   def new
     @practice = Practice.new
   end
   
-  def edit
-  end
+  def edit;  end
 
   def create
     @practice = Practice.new(practice_params)
 
     respond_to do |format|
       if @practice.save
-        @practices = Practice.all
         format.html { redirect_to @practice, notice: 'Practice was successfully created.' }
         format.json { render :show, status: :created, location: @practice }
         format.line { render :index }
@@ -65,21 +60,19 @@ class PracticesController < ApplicationController
   def update
     respond_to do |format|
       if @practice.update(practice_params)
-        @practices = Practice.all
         format.html { redirect_to @practice, notice: 'Practice was successfully updated.' }
         format.json { render :show, status: :ok, location: @practice }
         format.line { render :index }
       else
         format.html { render :edit }
         format.json { render json: @practice.errors, status: :unprocessable_entity }
-        format.line { render json: flex_text(@todo.errors.to_s) }
+        format.line { render json: flex_text(@practice.errors.to_s) }
       end
     end
   end
 
   def destroy
     @practice.destroy
-    @practices = Practice.all
     respond_to do |format|
       format.html { redirect_to practices_url, notice: 'Practice was successfully destroyed.' }
       format.json { head :no_content }
@@ -88,6 +81,10 @@ class PracticesController < ApplicationController
   end
 
   private
+    def today_practice
+      @practices = Practice.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).order("created_at DESC")
+    end
+
     def set_practice
       @practice = Practice.find(params[:id])
     end
