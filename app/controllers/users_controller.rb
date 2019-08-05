@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   protect_from_forgery with: :null_session
   skip_before_action :verify_authenticity_token, only: [:line_login]
- 
+  http_basic_authenticate_with name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"], except: [:line_login, :auth]
+
   def line_login
     if request.get?
       p params
@@ -11,9 +12,9 @@ class UsersController < ApplicationController
         body:{
           grant_type: "authorization_code",
           code: params["code"],
-          redirect_uri: "https://5d58b76d.ngrok.io/users/line_login",
-          client_id: "1606444442",
-          client_secret: "7391b1a072963d00bc4615859ca4d45b"
+          redirect_uri: ENV["LINE_LOGIN_URI"],
+          client_id: ENV["LINE_LOGIN_ID"],
+          client_secret: ENV["LINE_LOGIN_KEY"]
         }, headers: {"Content-Type": "application/x-www-form-urlencoded"})
         
         payload = JSON.parse(r.body)
@@ -24,7 +25,7 @@ class UsersController < ApplicationController
         User.find_or_create_by({email: u["email"], name: u["name"], picture: u["picture"], line_id: u["sub"]})
         redirect_to "https://line.me/R/ti/p/@880anerr"
     else
-      redirect_to "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1606444442&redirect_uri=https://5d58b76d.ngrok.io/users/line_login&state=nostate&scope=profile%20openid%20email&nonce=123qwe"
+      redirect_to "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=#{ENV['LINE_LOGIN_ID']}&redirect_uri=#{ENV['LINE_LOGIN_URI']}&state=nostate&scope=profile%20openid%20email&nonce=123qwe"
     end
   end
 
