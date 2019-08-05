@@ -8,15 +8,17 @@
 <div class="body-field">
 
   <div class="field">
-    <%= select_tag "month", options_for_select((1..24).to_a) %>
+    查詢前Ｎ個月
+    <%= select_tag "month", options_for_select((1..24).to_a), { class: 'select-field' } %>
   </div>
 
   <div class="field">
-    <%= select_tag "traning", options_for_select(@search) %>
+    項目
+    <%= select_tag "traning", options_for_select(@search), { class: 'select-field' } %>
   </div>
 
   <div class="actions">
-    <%= submit_tag "Submit" %>
+    <%= submit_tag "送出", class: "btn btn-primary actions-btn" %>
   </div>
 </div>
 

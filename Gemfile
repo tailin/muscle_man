@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem "kamigo", "~> 0.2.2"
 gem "dotenv-rails", "~> 2.7"
 gem 'httparty'
+gem 'jwt'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do

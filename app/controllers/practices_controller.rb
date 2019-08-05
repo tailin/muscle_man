@@ -12,18 +12,19 @@ class PracticesController < ApplicationController
       p params
       p "--------------"
       @search = []
-      Practice.select(:bar_type, :moving).distinct.each_with_index do |select, idx| 
+      Practice.select(:bar_type, :moving).where(line_id: params[:source_user_id]).distinct.each_with_index do |select, idx| 
         @search.push ["#{select.bar_type}#{select.moving}", idx]
       end
       p @search
     else
       m = params[:month].to_i
       t = params[:traning].to_i
+      line_id = params[:source_user_id]
       p "============================"
       p params
       p "============================"
-      list = Practice.select(:bar_type, :moving).distinct[t]
-      @practices = Practice.where("bar_type = ? AND moving = ? AND created_at >= ?", list.bar_type, list.moving, Time.now - m.months)
+      list = Practice.select(:bar_type, :moving).where(line_id: line_id).distinct[t]
+      @practices = Practice.where("line_id = ? AND bar_type = ? AND moving = ? AND created_at >= ?", line_id, list.bar_type, list.moving, Time.now - m.months)
       p @practices
       respond_to do |format|
           format.html { redirect_to @practices, notice: 'Practice was successfully created.' }
@@ -82,7 +83,7 @@ class PracticesController < ApplicationController
 
   private
     def today_practice
-      @practices = Practice.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).order("created_at DESC")
+      @practices = Practice.where(line_id: params[:source_user_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).order("created_at DESC")
     end
 
     def set_practice
@@ -90,7 +91,7 @@ class PracticesController < ApplicationController
     end
 
     def practice_params
-      params.require(:practice).permit(:bar_type, :moving, :amount, :unit, :rest, :weight)
+      params.require(:practice).permit(:bar_type, :moving, :amount, :unit, :rest, :weight, :line_id)
     end
 
     def debug_info

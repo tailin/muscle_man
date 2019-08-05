@@ -24,6 +24,8 @@
     重量(公斤)<%= form.number_field :weight, class: "select-field"%>
   </div>
 
+  <%= form.hidden_field :line_id, value: params[:source_user_id] %>
+
   <div class="actions">
     <%= form.submit '送出', class: "btn btn-primary actions-btn" %>
   </div>
