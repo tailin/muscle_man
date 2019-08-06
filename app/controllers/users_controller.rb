@@ -23,7 +23,7 @@ class UsersController < ApplicationController
         decoded_token = JWT.decode(token, hmac_secret, nil, { algorithm: 'HS256' })
         u = decoded_token[0]
         User.find_or_create_by({email: u["email"], name: u["name"], picture: u["picture"], line_id: u["sub"]})
-        redirect_to "https://line.me/R/ti/p/@880anerr"
+        redirect_to "https://line.me/R/ti/p/#{ENV['LINE_AT_ID']}"
     else
       redirect_to "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=#{ENV['LINE_LOGIN_ID']}&redirect_uri=#{ENV['LINE_LOGIN_URI']}&state=nostate&scope=profile%20openid%20email&nonce=123qwe"
     end
