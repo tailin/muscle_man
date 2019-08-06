@@ -19,7 +19,7 @@
       <td><%= user&.name %></td>
       <td><%= user&.email %></td>
       <td><%= user&.line_id %></td>
-      <td><%= image_tag user&.picture, height: '128', width: '128' %></td>
+      <td><%= image_tag(user&.picture, height: '128', width: '128') if user&.picture? %></td>
       <td><%= link_to 'Show', user %></td>
       <td><%= link_to 'Edit', edit_user_path(user) %></td>
       <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
